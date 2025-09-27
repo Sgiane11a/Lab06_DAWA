@@ -38,8 +38,11 @@
               <% } %>
             </div>
             <div class="card-action">
+              <!-- Editar -->
               <a href="/posts/<%= post._id %>/edit" class="btn-flat"><i class="material-icons teal-text">edit</i></a>
-              <form action="/posts/<%= post._id %>?_method=DELETE" method="POST" style="display:inline;">
+
+              <!-- Eliminar con confirmación -->
+              <form action="/posts/<%= post._id %>?_method=DELETE" method="POST" style="display:inline;" onsubmit="return confirm('¿Seguro que quieres eliminar este post?');">
                 <button type="submit" class="btn-flat"><i class="material-icons red-text">delete</i></button>
               </form>
             </div>
@@ -48,5 +51,6 @@
       <% }) %>
     </div>
   </div>
+
 </body>
 </html>
