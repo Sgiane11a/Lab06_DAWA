@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title><%= post ? "Editar Post" : "Nuevo Post" %></title>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css" rel="stylesheet">
+</head>
+<body class="container">
+
+  <h3><%= post ? "Editar Post" : "Crear Nuevo Post" %></h3>
+
+  <form action="<%= post ? `/posts/${post._id}?_method=PUT` : '/posts' %>" method="POST">
+    
+    <!-- Título -->
+    <div class="input-field">
+      <input type="text" id="title" name="title" value="<%= post ? post.title : '' %>" required>
+      <label for="title" class="active">Título</label>
+    </div>
+
+    <!-- Contenido -->
+    <div class="input-field">
+      <textarea id="content" name="content" class="materialize-textarea" required><%= post ? post.content : '' %></textarea>
+      <label for="content" class="active">Contenido</label>
+    </div>
+
+    <!-- Autor -->
+    <div class="input-field">
+      <select name="user" required>
+        <option value="" disabled <%= !post ? "selected" : "" %>>Selecciona un autor</option>
+        <% users.forEach(user => { %>
+          <option value="<%= user._id %>" <%= post && post.user && post.user._id.toString() === user._id.toString() ? "selected" : "" %>>
+            <%= user.name %>
+          </option>
+        <% }) %>
+      </select>
+      <label>Autor</label>
+    </div>
+
+    <!-- Imagen -->
+    <div class="input-field">
+      <input type="text" id="imageUrl" name="imageUrl" value="<%= post ? post.imageUrl : '' %>">
+      <label for="imageUrl" class="active">URL de la imagen</label>
+    </div>
+
+    <!-- Hashtags -->
+    <div class="input-field">
+      <input type="text" id="hashtags" name="hashtags" value="<%= post ? post.hashtags.join(', ') : '' %>">
+      <label for="hashtags" class="active">Hashtags (separados por coma)</label>
+    </div>
+
+    <!-- Botón -->
+    <button type="submit" class="btn waves-effect waves-light teal">
+      <%= post ? "Actualizar" : "Guardar" %>
+    </button>
+  </form>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      var elems = document.querySelectorAll('select');
+      M.FormSelect.init(elems);
+    });
+  </script>
+</body>
+</html>
